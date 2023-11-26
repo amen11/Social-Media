@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: ./server
-      dockerfile: Dockerfile.server
+      dockerfile: DockerFile
     ports:
       - "5000:5000"
     environment:
@@ -14,7 +14,7 @@ services:
   frontend:
     build:
       context: ./client
-      dockerfile: Dockerfile.client
+      dockerfile: DockerFile
     ports:
       - "3000:3000"
     depends_on:
