@@ -1,24 +1,39 @@
-version: '3'
+version: '3.5'
 
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: DockerFile.server
-    ports:
-      - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
-      # Add other environment variables as needed
-
   frontend:
-    build:
-      context: .
-      dockerfile: DockerFile.client
+    container_name: ng_frontend
+    build: ./client
     ports:
-      - "3000:3000"
+      - 3000:3000
+    platform: linux/x86_64
+    working_dir: /client
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      timeout: 10s
+      retries: 5
 
-volumes:
-  mongo-data:
+  backend:
+    container_name: ng_backend
+    build: ./server
+    ports:
+      - 3001:3001
+    platform: linux/x86_64
+    working_dir: /server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - APP_PORT=3001
+      - JWT_SECRET=mohsenyejour
+      - MONGO_URI=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
+
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 10s
+      retries: 5
