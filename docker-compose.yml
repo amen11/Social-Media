@@ -8,7 +8,8 @@ services:
       - 3000:3000
     working_dir: /client
     depends_on:
-      backend:
+     - backend
+    backend:
         condition: service_healthy
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3001
@@ -19,8 +20,7 @@ services:
     ports:
       - 3001:3001
     working_dir: /server
-    depends_on:
-      db:
+    db:
         condition: service_healthy
     environment:
       - APP_PORT=3001
