@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
+      - JWT_SECRET=mohsenyejour
+
+  mongo:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"

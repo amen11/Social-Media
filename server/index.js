@@ -14,9 +14,7 @@ import authRoutes from "./routes/auth.js";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
-import User from "./models/User.js";
-import Post from "./models/Post.js";
-import { users, posts } from "./data/index.js";
+
 
 
 /* Configurations */
@@ -61,16 +59,11 @@ const PORT = process.env.PORT || 6001 ;
 const url=process.env.MONGO_URL;
 //console.log(PORT);
 //console.log(url);
-mongoose.set("strictQuery",false);
-mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology:true,
-}).then(() => {
-    app.listen(PORT,()=> console.log(`Server port : ${PORT}`));
-
-    /* add data one time  */ 
-    /* User.insertMany(users);
-    Post.insertMany(posts); */
-
-}).catch((error) => console.log(`${error} did not connect `));
-
+mongoose.set('strictQuery', false);
+mongoose.connect(url, {useNewUrlParser: true})
+    .then(() => {
+        console.log('connected to mongodb')
+        return app.listen(3001);
+    })
+    .then(() => console.log('server running on 3001'))
+    .catch(err => console.log(err.message));
