@@ -1,8 +1,10 @@
-version: '3.3'  # Adjust the version based on your Docker Compose version
+version: '3.3'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     ports:
       - "3001:3001"
     depends_on:
