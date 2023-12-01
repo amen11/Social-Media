@@ -1,19 +1,50 @@
 version: '3.3'
 
 services:
-  web:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+  frontend:
+    container_name: ng_frontend
+    build: ./client
     ports:
-      - "3001:3001"
+      - 3000:3000
+    platform: linux/x86_64
+    working_dir: /client
     depends_on:
-      - mongo
+      backend:
+        condition: service_healthy
     environment:
-      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
-      - JWT_SECRET=mohsenyejour
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      timeout: 10s
+      retries: 5
 
-  mongo:
-    image: "mongo:latest"
+  backend:
+    container_name: ng_backend
+    build: ./server
     ports:
-      - "27017:27017"
+      - 3001:3001
+    platform: linux/x86_64
+    working_dir: /server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - APP_PORT=3001
+      - JWT_SECRET=mohsenyejour
+      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 10s
+      retries: 5
+
+  db:
+    container_name: ng_db
+    image: mongo:latest
+    platform: linux/x86_64
+    ports:
+      - 27017:27017
+    restart: 'always'
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.stats()"]
+      timeout: 10s
+      retries: 5
