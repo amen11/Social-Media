@@ -31,7 +31,8 @@ services:
       test: ["CMD", "lsof", "-t", "-i:3001"]
       timeout: 10s
       retries: 5 
+
   mongo:
-  image: "mongo:latest"
-  ports:
-    - "27017:27017"
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
