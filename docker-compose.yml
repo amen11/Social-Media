@@ -16,6 +16,10 @@ services:
       timeout: 10s
       retries: 5
 
+  mongo:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
   backend:
     container_name: ng_backend
     build: ./server
@@ -27,8 +31,3 @@ services:
     environment:
       - JWT_SECRET=mohsenyejour
       - MONGO_URL=mongodb://mongo:27017/?retryWrites=true&w=majority
-
-  mongo:
-    image: "mongo:latest"
-    ports:
-      - "27017:27017"
