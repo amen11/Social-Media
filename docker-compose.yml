@@ -23,23 +23,11 @@ services:
       - 3001:3001
     working_dir: /server
     depends_on:
-      - db
+      - mongodb:latest
     environment:
-      - APP_PORT=3001
       - JWT_SECRET=mohsenyejour
       - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"]
-      timeout: 10s
-      retries: 5
-
-  db:
-    container_name: ng_db
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    restart: 'always'
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.stats()"]
       timeout: 10s
       retries: 5
