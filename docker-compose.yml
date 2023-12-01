@@ -23,11 +23,17 @@ services:
       - 3001:3001
     working_dir: /server
     depends_on:
-      - mongodb:latest
+      - mongo
     environment:
       - JWT_SECRET=mohsenyejour
       - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"]
       timeout: 10s
-      retries: 5
+      retries: 5 
+
+
+mongo:
+  image: "mongo:latest"
+  ports:
+    - "27017:27017"
