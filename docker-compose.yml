@@ -26,11 +26,8 @@ services:
       - mongo
     environment:
       - JWT_SECRET=mohsenyejour
-      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
-      timeout: 10s
-      retries: 5 
+      - MONGO_URI=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
+ 
 
   mongo:
     image: "mongo:latest"
