@@ -22,7 +22,7 @@ services:
       - "27017:27017"
   backend:
     container_name: ng_backend
-    build: ./index
+    build: ./server
     ports:
       - 3001:3001
     working_dir: /server
