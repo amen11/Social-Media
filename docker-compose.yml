@@ -1,6 +1,17 @@
 version: '3.3'
 
 services:
+  backend:
+    container_name: ng_backend
+    build: ./server
+    ports:
+      - 3001:3001
+    working_dir: /server
+    depends_on:
+      - mongo
+    environment:
+      - JWT_SECRET=mohsenyejour
+      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
   frontend:
     container_name: ng_frontend
     build: ./client
@@ -18,14 +29,3 @@ services:
     image: "mongo:latest"
     ports:
       - "27017:27017"
-  backend:
-    container_name: ng_backend
-    build: ./server
-    ports:
-      - 3001:3001
-    working_dir: /server
-    depends_on:
-      - mongo
-    environment:
-      - JWT_SECRET=mohsenyejour
-      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
