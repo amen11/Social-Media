@@ -30,4 +30,4 @@ services:
       - mongo
     environment:
       - JWT_SECRET=mohsenyejour
-      - MONGO_URL=mongodb://mongo:27017/?retryWrites=true&w=majority
+      - MONGO_URL=mongodb+srv://amenkorchane:amenkorchanemongodb@cluster0.nvupipm.mongodb.net/?retryWrites=true&w=majority
